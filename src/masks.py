@@ -16,6 +16,7 @@ def get_mask_card_number(card_number: str) -> str:
 
     return f"{part1} {part2}** {part3} {part4}"
 
+
 def get_mask_account(account_number: str) -> str:
     """
     Вторая функция принимает строку с номером счета.
@@ -31,5 +32,3 @@ def get_mask_account(account_number: str) -> str:
     last_four = account_number[-4:]
 
     return f"**{last_four}"
-
-
