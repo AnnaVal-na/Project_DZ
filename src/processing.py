@@ -18,3 +18,4 @@ def sort_by_date(data, descending=True):
     :return: новый список словарей, отсортированный по дате
     """
     return sorted(data, key=lambda x: datetime.fromisoformat(x['date']), reverse=descending)
+
