@@ -1,26 +1,24 @@
 def get_mask_card_number(card_number: str) -> str:
-    """
-    Первая функция принимает строку с номером карты.
-    Маскирует номер карты в формате XXXX XX** **** XXXX.
-    :param card_number: Строка, содержащая номер карты.
-    :return: Замаскированный номер карты.
-    """
+    # Проверяем, что номер карты не пустой
+    if not card_number:
+        raise ValueError("Card number cannot be empty")
+
+    # Проверяем, что в номере карты только цифры
+    if not card_number.isdigit():
+        raise ValueError("Card number must contain only digits")
+
+    # Проверяем, что длина номера карты равна 16
     if len(card_number) != 16:
-        raise ValueError("Номер карты должен содержать ровно 16 цифр.")
+        raise ValueError("Card number must be 16 digits long")
 
-    # Разбиваем номер карты на части
-    part1 = card_number[:4]
-    part2 = card_number[4:6]
-    part3 = "****"
-    part4 = card_number[12:]
-
-    return f"{part1} {part2}** {part3} {part4}"
+    # Маскируем номер карты
+    return f"{card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
 
 
 def get_mask_account(account_number: str) -> str:
     """
     Вторая функция принимает строку с номером счета.
-    Маскирует номер счета в формате **XXXX.
+    Маскирует номер счета в формате XXXX.
 
     :param account_number: Строка, содержащая номер счета.
     :return: Замаскированный номер счета.
@@ -31,4 +29,4 @@ def get_mask_account(account_number: str) -> str:
     # Берем последние 4 цифры номера счета
     last_four = account_number[-4:]
 
-    return f"**{last_four}"
+    return last_four

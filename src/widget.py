@@ -1,5 +1,5 @@
-from masks import get_mask_card_number, get_mask_account
-import datetime
+from .masks import get_mask_card_number, get_mask_account
+from datetime import datetime
 
 
 def mask_account_card(info: str) -> str:
@@ -30,8 +30,12 @@ def mask_account_card(info: str) -> str:
         raise ValueError("Неизвестный тип информации. Ожидалось 'Visa', 'Maestro' или 'Счет'.")
 
 
-def get_date(date_str):
-    date_obj = datetime.fromisoformat(date_str)
-    # Форматируем дату в нужный формат "ДД.ММ.ГГГГ"
-    formatted_date = date_obj.strftime("%d.%m.%Y")
-    return formatted_date
+def get_date(date_str: str) -> str:
+    try:
+        # Пытаемся преобразовать строку даты в объект datetime
+        date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
+        # Форматируем дату в нужный формат "ДД.ММ.ГГГГ"
+        formatted_date = date_obj.strftime("%d.%m.%Y")
+        return formatted_date
+    except ValueError:
+        raise ValueError("Invalid isoformat string")
