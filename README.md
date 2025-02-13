@@ -40,6 +40,66 @@ state.
 Проверка корректности сортировки при одинаковых датах.
 Тесты на работу функции с некорректными или нестандартными форматами дат.
 
+## 12_02_25 В проект добавлен новый модуль generators с функцией filter_by_currency, генераторы и тесты: 
+
+1. Функция filter_by_currency, которая принимает на вход список словарей, представляющих транзакции.
+2. Генератор transaction_descriptions, который принимает список словарей с транзакциями и возвращает описание каждой операции по очереди.
+3. Генератор card_number_generator, который выдает номера банковских карт в формате 
+XXXX XXXX XXXX XXXX, где X — цифра номера карты. 
+
+## Тесты 
+1. test_filter_by_currency
+2. test_transaction_descriptions
+3. test_card_number_generator
+
+## Примеры использования реализованных функций:
+# Исходные данные транзакций
+transactions = [
+    {"id": 1, "type": "organization_transfer", "operationAmount": {"amount": 100, "currency": {"code": "USD"}}},
+    {"id": 2, "type": "account_to_account", "operationAmount": {"amount": 200, "currency": {"code": "EUR"}}},
+    {"id": 3, "type": "card_to_card", "operationAmount": {"amount": 300, "currency": {"code": "USD"}}},
+    {"id": 4, "type": "unknown_type", "operationAmount": None},
+    {"id": 5, "type": "organization_transfer", "operationAmount": {"amount": 400, "currency": {"code": "GBP"}}},
+]
+
+# Шаг 1: Фильтрация транзакций по валюте USD
+filtered_transactions = list(filter_by_currency(transactions, currency="USD"))
+
+# Шаг 2: Генерация описаний для отфильтрованных транзакций
+descriptions = transaction_descriptions(filtered_transactions)
+
+# Шаг 3: Генерация номеров карт для каждой транзакции
+card_numbers = list(card_number_generator(1, len(filtered_transactions)))
+
+# Вывод результатов
+print("Отфильтрованные транзакции (USD):")
+for i, transaction in enumerate(filtered_transactions):
+    print(f"Транзакция {i + 1}: {transaction}")
+    print(f"Описание: {descriptions[i]}")
+    print(f"Номер карты: {card_numbers[i]}\n")
+
+## Пример использования генератора
+# Исходные данные транзакций
+transactions = [
+    {"type": "organization_transfer"},
+    {"type": "account_to_account"},
+    {"type": "card_to_card"},
+    {"type": "unknown_type"},  # Неизвестный тип транзакции
+]
+
+# Создание генератора описаний
+generator = transaction_descriptions(transactions)
+
+# Получение описаний по одному
+print("Описания транзакций (по одному):")
+for description in generator:
+    print(description)
+
+# Альтернативный способ: преобразование генератора в список
+print("\nОписания транзакций (в виде списка):")
+descriptions_list = list(generator)  # Обратите внимание: здесь список будет пустым, так как генератор уже исчерпан
+print
+
 ## Установка:
 
 1. Клонируйте репозиторий:
