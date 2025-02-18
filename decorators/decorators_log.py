@@ -4,6 +4,13 @@ from typing import Callable, Any, Optional
 
 
 def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    """
+    Декоратор log будет автоматически регистрировать детали выполнения функций,
+    такие как время вызова, имя функции, передаваемые аргументы, результат
+    выполнения и информация об ошибках.
+    Декоратор принимает необязательный аргумент filename, который определяет,
+    куда будут записываться логи (в файл или в консоль).
+    """
     def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
