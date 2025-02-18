@@ -1,5 +1,4 @@
 from .masks import get_mask_card_number, get_mask_account
-from datetime import datetime
 
 
 def mask_account_card(info: str) -> str:
@@ -31,11 +30,15 @@ def mask_account_card(info: str) -> str:
 
 
 def get_date(date_str: str) -> str:
-    try:
-        # Пытаемся преобразовать строку даты в объект datetime
-        date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
-        # Форматируем дату в нужный формат "ДД.ММ.ГГГГ"
-        formatted_date = date_obj.strftime("%d.%m.%Y")
-        return formatted_date
-    except ValueError:
+    if date_str is None:
+        raise TypeError("None is not allowed")
+
+    if not isinstance(date_str, str) or len(date_str) != 19 or date_str[10] != 'T':
         raise ValueError("Invalid isoformat string")
+
+    # Разбиваем строку формата ISO на составляющие
+    date_part = date_str.split('T')[0]
+    year, month, day = date_part.split('-')
+
+    # Возвращаем строку в формате "дд.мм.гггг"
+    return f"{day}.{month}.{year}"
