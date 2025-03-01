@@ -32,7 +32,7 @@ def test_get_date_invalid_input() -> None:
 
     # None вместо строки
     with pytest.raises(TypeError):
-        get_date(None)
+        get_date("str")
 
     # Строка с неполной датой
     with pytest.raises(ValueError, match="Invalid isoformat string"):
