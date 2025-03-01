@@ -1,6 +1,8 @@
+from typing import Dict, List, Union
+
 import pytest
+
 from src.processing import filter_by_state
-from typing import List, Dict, Union
 
 # Тест для проверки правильности фильтрации по статусу state
 

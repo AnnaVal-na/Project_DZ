@@ -1,7 +1,8 @@
 import unittest
-from unittest.mock import patch, Mock
-from src.external_api import get_exchange_rate, convert_to_rub
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+from unittest.mock import Mock, patch
+
+from src.external_api import convert_to_rub, get_exchange_rate
 
 
 class TestCurrencyConversion(unittest.TestCase):

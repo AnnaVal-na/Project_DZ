@@ -1,6 +1,8 @@
+from typing import Dict, List, Tuple, Union
+
 import pytest
+
 from src.processing import sort_by_date
-from typing import List, Dict, Union, Tuple
 
 # 1. Фикстуры для 4-х тестов функции get_mask_card_number
 

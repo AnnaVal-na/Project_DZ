@@ -1,7 +1,8 @@
 import unittest
+from typing import Any, Dict, List
 from unittest.mock import mock_open, patch
+
 from src.utils import load_transactions_from_json
-from typing import List, Dict, Any
 
 
 class TestLoadTransactions(unittest.TestCase):

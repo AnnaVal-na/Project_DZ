@@ -1,5 +1,7 @@
+from typing import Dict, List
+
 import pytest
-from typing import List, Dict
+
 from src.generators import filter_by_currency
 
 
