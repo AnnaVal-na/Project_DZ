@@ -1,5 +1,6 @@
+from typing import Dict, Generator, List
+
 import pytest
-from typing import List, Dict, Generator
 
 
 # Функция для тестирования

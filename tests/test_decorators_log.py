@@ -1,7 +1,9 @@
-import pytest
 import os
-from decorators.decorators_log import log
+
+import pytest
 from _pytest.capture import CaptureFixture
+
+from decorators.decorators_log import log
 
 
 # Пример функции с декоратором

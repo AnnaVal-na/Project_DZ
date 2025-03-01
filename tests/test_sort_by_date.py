@@ -1,6 +1,8 @@
+from typing import Any, Dict, List
+
 import pytest
+
 from src.processing import sort_by_date
-from typing import List, Dict, Any
 
 # Тест для проверки сортировки по датам в порядке убывания и возрастания
 

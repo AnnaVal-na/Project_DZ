@@ -1,4 +1,4 @@
-from typing import List, Dict, Iterator, Generator
+from typing import Dict, Generator, Iterator, List
 
 
 # Функция 1: Фильтрация транзакций по валюте
