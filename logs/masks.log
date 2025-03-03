@@ -1,0 +1,7 @@
+2025-03-03 16:32:31,415 - __main__ - INFO - Функция выполнена успешно.
+2025-03-03 16:32:31,415 - __main__ - ERROR - Ошибка в функции: Произошла ошибка!
+2025-03-03 16:32:31,416 - __main__ - ERROR - Исключение было вызвано.
+Traceback (most recent call last):
+  File "C:\Users\annak\PycharmProjects\PythonProject\src\masks.py", line 30, in example_function_error
+    raise ValueError("Произошла ошибка!")
+ValueError: Произошла ошибка!
