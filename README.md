@@ -62,6 +62,18 @@ transactions = [
     {"id": 5, "type": "organization_transfer", "operationAmount": {"amount": 400, "currency": {"code": "GBP"}}},
 ]
 
+
+**04.03.25_Библиотеки csv и pandas:**
+# Реализовано считывание финансовых операций из CSV- и XLSX-файлов.
+## В проект внесены функции: 
+def load_transactions_from_csv Функция для считывания финансовых операций из CSV-файла.
+def load_transactions_from_excel(file_path: str) Функция для считывания финансовых операций из Excel-файла.
+# А так же тесты к ним: 
+файл test_load_transactions_csv
+файл test_load_transactions_excel
+
+
+## В проект внесены тесты:
 # Шаг 1: Фильтрация транзакций по валюте USD
 filtered_transactions = list(filter_by_currency(transactions, currency="USD"))
 
