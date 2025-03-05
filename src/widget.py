@@ -1,4 +1,6 @@
 from .masks import get_mask_account, get_mask_card_number
+from datetime import datetime
+from typing import Optional
 
 
 def mask_account_card(info: str) -> str:
@@ -29,16 +31,15 @@ def mask_account_card(info: str) -> str:
         raise ValueError("Неизвестный тип информации. Ожидалось 'Visa', 'Maestro' или 'Счет'.")
 
 
-def get_date(date_str: str) -> str:
+def get_date(date_str: Optional[str]) -> str:
+    """Конвертирует дату из ISO формата в 'DD.MM.YYYY'."""
     if date_str is None:
         raise TypeError("None is not allowed")
 
-    if not isinstance(date_str, str) or len(date_str) != 19 or date_str[10] != 'T':
+    try:
+        # Явно проверяем наличие времени
+        if "T" not in date_str:
+            raise ValueError("Missing time component")
+        return datetime.fromisoformat(date_str).strftime("%d.%m.%Y")
+    except ValueError:
         raise ValueError("Invalid isoformat string")
-
-    # Разбиваем строку формата ISO на составляющие
-    date_part = date_str.split('T')[0]
-    year, month, day = date_part.split('-')
-
-    # Возвращаем строку в формате "дд.мм.гггг"
-    return f"{day}.{month}.{year}"

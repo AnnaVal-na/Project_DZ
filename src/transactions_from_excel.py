@@ -1,51 +1,59 @@
 from typing import Any, Dict, List
-
 import openpyxl
-import pandas as pd
+from openpyxl.worksheet.worksheet import Worksheet
+import logging
+from datetime import datetime
 
-# Чтение Excel файла
-excel_file = 'transactions_excel.xlsx'
-df_excel = pd.read_excel(excel_file)
-
-# Вывод первых 5 строк Excel файла
-print("Содержимое Excel файла:")
-print(df_excel.head())
+logging.basicConfig(level=logging.ERROR)
 
 
 def load_transactions_from_excel(file_path: str) -> List[Dict[str, Any]]:
-    """Функция для считывания финансовых операций из Excel-файла.
-
-    Аргументы:
-        file_path (str): Путь к файлу Excel.
-
-    Возвращает:
-        List[Dict[str, Any]]: Список словарей с транзакциями.
-    """
     transactions = []
-
+    workbook = None
     try:
         workbook = openpyxl.load_workbook(file_path, data_only=True)
-        sheet = workbook.active  # Используем активный лист
+        if not workbook.sheetnames:
+            raise ValueError("Файл не содержит листов.")
 
-        # Проверяем, что sheet не None
+        sheet: Worksheet = workbook.active  # type: ignore
         if sheet is None:
-            raise ValueError("Активный лист не найден.")
+            raise ValueError("Активный лист не найден")
 
-        # Получаем заголовки из первой строки
-        headers = [str(cell.value) for cell in sheet[1]]  # Приведение заголовков к строкам
+        # Получаем заголовки
+        header_row = sheet[1]
+        headers = [str(cell.value).strip() if cell.value else "" for cell in header_row]
 
-        # Считываем данные построчно, начиная со 2-й строки
+        # Обработка данных
         for row in sheet.iter_rows(min_row=2, values_only=True):
-            # Проверяем, что row не None и имеет нужную длину
-            if row is None or len(row) != len(headers):
-                continue  # Пропускаем некорректные строки
-            # Приведение ключей к строковому типу
-            transaction = {headers[i]: row[i] for i in range(len(headers))}
+            if len(row) != len(headers):
+                continue
+
+            transaction: Dict[str, Any] = {}
+            for i, key in enumerate(headers):
+                value = row[i]
+                if key == "Amount":
+                    if isinstance(value, (int, float)):
+                        transaction[key] = int(value)
+                    elif isinstance(value, str):
+                        try:
+                            transaction[key] = int(float(value))
+                        except ValueError:
+                            transaction[key] = 0
+                    elif isinstance(value, datetime):
+                        transaction[key] = value.toordinal()
+                    else:
+                        transaction[key] = 0
+                else:
+                    transaction[key] = value
             transactions.append(transaction)
 
-    except FileNotFoundError:
-        print(f"Файл не найден: {file_path}")
+    except FileNotFoundError:  # Убрано 'as e'
+        logging.error(f"Файл не найден: {file_path}")
+        raise
     except Exception as e:
-        print(f"Произошла ошибка при чтении файла Excel: {e}")
-
+        logging.error(f"Ошибка при чтении файла: {e}")
+        raise
+    finally:
+        if workbook:
+            workbook.close()
     return transactions

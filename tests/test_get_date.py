@@ -1,5 +1,4 @@
 import pytest
-
 from src.widget import get_date
 
 
@@ -23,18 +22,19 @@ def test_get_date_various_formats(input_date: str, expected_output: str) -> None
 
 
 def test_get_date_invalid_input() -> None:
-    # Строка без даты
-    with pytest.raises(ValueError, match="Invalid isoformat string"):
-        get_date("invalid_date")
-
-    # Пустая строка
-    with pytest.raises(ValueError, match="Invalid isoformat string"):
-        get_date("")
-
-    # None вместо строки
+    # Проверка обработки None
     with pytest.raises(TypeError):
-        get_date("str")
+        get_date(None)
 
-    # Строка с неполной датой
-    with pytest.raises(ValueError, match="Invalid isoformat string"):
-        get_date("2023-10-05")
+    # Корректные тестовые кейсы для ошибок
+    invalid_cases = [
+        "invalid_date",  # Полностью невалидный формат
+        "2023-13-01T00:00:00",  # Несуществующий месяц
+        "2023-02-30T00:00:00",  # Несуществующий день
+        "2023T14:00:00",  # Неполная дата
+        ""  # Пустая строка
+    ]
+
+    for case in invalid_cases:
+        with pytest.raises(ValueError, match="Invalid isoformat string"):
+            get_date(case)
