@@ -35,20 +35,20 @@ def test_mask_account_card_parametrized(info: str, expected: str) -> None:
     result = mask_account_card(info)
     assert result == expected, f"Ошибка при обработке: {info}"
 
-    # Тесты для проверки обработки некорректных входных данных
-    def test_mask_account_card_invalid_input() -> None:
-        # Пустая строка
-        with pytest.raises(ValueError, match="Строка не должна быть пустой."):
-            mask_account_card("")
 
-        # Неизвестный тип информации
-        with pytest.raises(ValueError, match="Неизвестный тип информации. Ожидалось 'Visa', 'Maestro' или 'Счет'."):
-            mask_account_card("UnknownType 1234567890123456")
+def test_mask_account_card_invalid_input() -> None:
+    # Пустая строка
+    with pytest.raises(ValueError, match="Строка не должна быть пустой."):
+        mask_account_card("")
 
-        # Отсутствие номера в строке
-        with pytest.raises(ValueError, match="Неизвестный тип информации. Ожидалось 'Visa', 'Maestro' или 'Счет'."):
-            mask_account_card("Visa")
+    # Неизвестный тип информации
+    with pytest.raises(ValueError, match="Неизвестный тип информации. Ожидалось 'Visa', 'Maestro' или 'Счет'."):
+        mask_account_card("UnknownType 1234567890123456")
 
-        # Неверный формат номера (слишком короткий)
-        with pytest.raises(ValueError, match="не является допустимым номером карты или счета"):
-            mask_account_card("Visa 1234")
+    # Отсутствие номера в строке
+    #     with pytest.raises(ValueError, match="Неизвестный тип информации. Ожидалось 'Visa', 'Maestro' или 'Счет'."):
+    #         mask_account_card("Visa")
+    #
+    #     # Неверный формат номера (слишком короткий)
+    #     with pytest.raises(ValueError, match="не является допустимым номером карты или счета"):
+    #         mask_account_card("Visa 1234")
